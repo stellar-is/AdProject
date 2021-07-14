@@ -2,14 +2,12 @@ package com.stellar.myproject.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import org.aspectj.weaver.ast.Or;
-
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Data
-public class ChannelsEntity {
+public class Channels {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,7 +20,11 @@ public class ChannelsEntity {
     @ManyToMany(mappedBy = "channel")
     @Transient
     @JsonIgnore
-    private List<OrderEntity> order;
+    private List<Orders> order;
+    @ManyToOne
+    @JoinColumn(name = "order_channel_id")
+    private OrdersInChannels ordersInChannels;
+
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn
 //    private OrderEntity order;

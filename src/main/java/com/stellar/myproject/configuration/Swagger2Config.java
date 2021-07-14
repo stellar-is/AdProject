@@ -18,6 +18,7 @@ public class Swagger2Config {
 
     public static final String ORDER = "Добавить рекламу";
     public static final String CHANNEL = "Добавить канал";
+    public static final String FILE = "Добавить лого";
 
     @Bean
     public Docket api() {
@@ -27,7 +28,8 @@ public class Swagger2Config {
                 .paths(PathSelectors.any())
                 .build().apiInfo(apiEndPointsInfo())
                 .tags(new Tag(ORDER, ""))
-                .tags(new Tag(CHANNEL, ""));
+                .tags(new Tag(CHANNEL, ""))
+                .tags(new Tag(FILE, ""));
     }
 
     private ApiInfo apiEndPointsInfo() {

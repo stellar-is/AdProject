@@ -6,13 +6,13 @@ import javax.persistence.*;
 
 @Entity
 @Data
-public class DiscountEntity {
+public class Discounts {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private int days;
     private double percent;
     @ManyToOne
-    private ChannelsEntity channel;
+    private Channels channel;
 
 }

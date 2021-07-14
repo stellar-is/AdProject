@@ -1,9 +1,9 @@
 package com.stellar.myproject.service;
-import com.stellar.myproject.entity.OrderEntity;
+import com.stellar.myproject.entity.Orders;
 
 
 public interface OrderService {
 
-    OrderEntity saveOrder(OrderEntity order);
-    OrderEntity findByName(String name);
+    Orders saveOrder(Orders order);
+    Orders findByName(String name);
 }
