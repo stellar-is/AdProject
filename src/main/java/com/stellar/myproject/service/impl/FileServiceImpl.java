@@ -12,7 +12,7 @@ public class FileServiceImpl implements FileService {
     @Autowired
     private FileServiceFeign fileServiceFeign;
     @Autowired
-    private ChannelServiceImpl channelService;
+    private ChannelsServiceImpl channelService;
 
     @Override
     public ChannelsDto uploadLogo(Long id, MultipartFile file) {

@@ -2,26 +2,32 @@ package com.stellar.myproject.service.impl;
 import com.stellar.myproject.entity.Channels;
 import com.stellar.myproject.entity.dto.ChannelsDto;
 import com.stellar.myproject.mappers.ChannelsMapper;
-import com.stellar.myproject.repository.ChannelRepo;
-import com.stellar.myproject.service.ChannelService;
+import com.stellar.myproject.microservice.FileServiceFeign;
+import com.stellar.myproject.repository.ChannelsRepo;
+import com.stellar.myproject.service.ChannelsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ChannelServiceImpl implements ChannelService {
+public class ChannelsServiceImpl implements ChannelsService {
     @Autowired
-    ChannelRepo channelRepo;
+    ChannelsRepo channelsRepo;
+
+    @Autowired
+    FileServiceFeign fileServiceFeign;
 
     @Override
-    public Channels saveChannel(Channels channel) {
-        return channelRepo.save(channel);
+    public ChannelsDto saveChannel(ChannelsDto channelsDto) {
+        Channels channels = ChannelsMapper.INSTANCE.channelsDtoToChannels(channelsDto);
+        channels = channelsRepo.save(channels);
+        return ChannelsMapper.INSTANCE.channelsToChannelsDto(channels);
     }
 
     @Override
     public List<ChannelsDto> findAll() {
-        List<Channels> channelsList = channelRepo.findAll();
+        List<Channels> channelsList = channelsRepo.findAll();
         List<ChannelsDto>channelsDtoList = ChannelsMapper.INSTANCE.channelsListToChannelsDtoList(channelsList);
         List<Channels> channelsList1List = ChannelsMapper.INSTANCE.channelsDtoListToChannelsList(channelsDtoList);
         System.out.println(channelsDtoList);
@@ -29,7 +35,7 @@ public class ChannelServiceImpl implements ChannelService {
     }
     @Override
     public ChannelsDto findById(Long id){
-        Channels channels = channelRepo.findById(id).orElse(null);
+        Channels channels = channelsRepo.findById(id).orElse(null);
         if(channels == null){
             throw new RuntimeException("Not found");
         }
@@ -38,7 +44,7 @@ public class ChannelServiceImpl implements ChannelService {
 
     @Override
     public ChannelsDto update(ChannelsDto channelsDto) {
-        Channels channels = channelRepo.findById(channelsDto.getId()).orElse(null);
+        Channels channels = channelsRepo.findById(channelsDto.getId()).orElse(null);
         if(channels == null){
             throw new RuntimeException("Not found");
         }
@@ -46,7 +52,7 @@ public class ChannelServiceImpl implements ChannelService {
 //        channelsEntity.setName(channelsDto.getName());
 //        ChannelsEntity channelsEntity1 = channelRepo.save(channelsEntity);
 channels = ChannelsMapper.INSTANCE.channelsDtoToChannels(channelsDto);
-        channels = channelRepo.save(channels);
+        channels = channelsRepo.save(channels);
         return ChannelsMapper.INSTANCE.channelsToChannelsDto(channels);
     }
 

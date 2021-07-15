@@ -1,9 +1,10 @@
 package com.stellar.myproject.repository;
 
-import com.stellar.myproject.entity.Discounts;
+import com.stellar.myproject.entity.Orders;
+import com.stellar.myproject.entity.dto.OrdersDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DiscountRepo extends JpaRepository<Discounts, Long> {
+public interface OrdersRepo extends JpaRepository<Orders,Long> {
 }

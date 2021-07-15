@@ -3,10 +3,9 @@ package com.stellar.myproject.entity.dto;
 import lombok.Data;
 
 @Data
-public class ChannelsDto {
+public class ClientsDto {
     private Long id;
+    private String phone;
     private String name;
-    private String logo;
-    private boolean isActive;
-
+    private String eMail;
 }
