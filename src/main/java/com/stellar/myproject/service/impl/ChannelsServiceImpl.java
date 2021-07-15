@@ -3,10 +3,12 @@ import com.stellar.myproject.entity.Channels;
 import com.stellar.myproject.entity.dto.ChannelsDto;
 import com.stellar.myproject.mappers.ChannelsMapper;
 import com.stellar.myproject.microservice.FileServiceFeign;
+import com.stellar.myproject.microservice.objects.Response;
 import com.stellar.myproject.repository.ChannelsRepo;
 import com.stellar.myproject.service.ChannelsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -14,12 +16,16 @@ import java.util.List;
 public class ChannelsServiceImpl implements ChannelsService {
     @Autowired
     ChannelsRepo channelsRepo;
+    @Autowired
+    ChannelsService channelsService;
 
     @Autowired
     FileServiceFeign fileServiceFeign;
 
     @Override
-    public ChannelsDto saveChannel(ChannelsDto channelsDto) {
+    public ChannelsDto saveChannel(ChannelsDto channelsDto, MultipartFile file) {
+        Response response = fileServiceFeign.upload(file);
+        channelsDto.setLogo(response.getDownloadUri());
         Channels channels = ChannelsMapper.INSTANCE.channelsDtoToChannels(channelsDto);
         channels = channelsRepo.save(channels);
         return ChannelsMapper.INSTANCE.channelsToChannelsDto(channels);
