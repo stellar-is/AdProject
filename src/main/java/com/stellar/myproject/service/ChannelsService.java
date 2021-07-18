@@ -1,6 +1,6 @@
 package com.stellar.myproject.service;
 
-import com.stellar.myproject.entity.Channels;
+
 import com.stellar.myproject.entity.dto.ChannelsDto;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,7 +12,11 @@ public interface ChannelsService {
 
     ChannelsDto findById(Long id);
 
-    ChannelsDto update(ChannelsDto channelsDto);
+    ChannelsDto update(ChannelsDto channelsDto, MultipartFile file);
 
-    ChannelsDto saveChannel(ChannelsDto channelsDto, MultipartFile file);
+    ChannelsDto save(ChannelsDto channelsDto, MultipartFile file);
+
+    List<ChannelsDto>findActiveChannels();
+
+    ChannelsDto disActivateChannel(Long id);
 }

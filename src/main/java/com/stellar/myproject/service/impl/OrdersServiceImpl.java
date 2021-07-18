@@ -16,11 +16,21 @@ public class OrdersServiceImpl implements OrdersService {
 
 
     @Override
-    public OrdersDto saveOrder(OrdersDto ordersDto) {
+    public OrdersDto save(OrdersDto ordersDto) {
         Orders orders = OrdersMapper.INSTANCE.ordersDtoToOrders(ordersDto);
         orders = ordersRepo.save(orders);
         return OrdersMapper.INSTANCE.ordersToOrdersDto(orders);
 
+    }
+
+    @Override
+    public OrdersDto findById(Long id) {
+        return null;
+    }
+
+    @Override
+    public OrdersDto update(OrdersDto orderDto) {
+        return null;
     }
 
 }

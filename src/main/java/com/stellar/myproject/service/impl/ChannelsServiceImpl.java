@@ -16,6 +16,7 @@ import java.util.List;
 public class ChannelsServiceImpl implements ChannelsService {
     @Autowired
     ChannelsRepo channelsRepo;
+
     @Autowired
     ChannelsService channelsService;
 
@@ -23,7 +24,7 @@ public class ChannelsServiceImpl implements ChannelsService {
     FileServiceFeign fileServiceFeign;
 
     @Override
-    public ChannelsDto saveChannel(ChannelsDto channelsDto, MultipartFile file) {
+    public ChannelsDto save(ChannelsDto channelsDto, MultipartFile file) {
         Response response = fileServiceFeign.upload(file);
         channelsDto.setLogo(response.getDownloadUri());
         Channels channels = ChannelsMapper.INSTANCE.channelsDtoToChannels(channelsDto);
@@ -32,11 +33,27 @@ public class ChannelsServiceImpl implements ChannelsService {
     }
 
     @Override
+    public List<ChannelsDto> findActiveChannels() {
+        List<Channels> channelsList = channelsRepo.findByIsActiveTrue();
+        List<ChannelsDto>channelsDtoList = ChannelsMapper.INSTANCE.channelsListToChannelsDtoList(channelsList);
+        return channelsDtoList;
+    }
+
+    @Override
+    public ChannelsDto disActivateChannel(Long id) {
+        Channels channels = channelsRepo.findById(id).orElse(null);
+        if(channels == null){
+            throw new RuntimeException("Not found");
+        }
+        channels.setActive(false);
+        channelsRepo.save(channels);
+        return ChannelsMapper.INSTANCE.channelsToChannelsDto(channels);
+    }
+
+    @Override
     public List<ChannelsDto> findAll() {
         List<Channels> channelsList = channelsRepo.findAll();
         List<ChannelsDto>channelsDtoList = ChannelsMapper.INSTANCE.channelsListToChannelsDtoList(channelsList);
-        List<Channels> channelsList1List = ChannelsMapper.INSTANCE.channelsDtoListToChannelsList(channelsDtoList);
-        System.out.println(channelsDtoList);
         return channelsDtoList;
     }
     @Override
@@ -49,15 +66,36 @@ public class ChannelsServiceImpl implements ChannelsService {
     }
 
     @Override
-    public ChannelsDto update(ChannelsDto channelsDto) {
+    public ChannelsDto update(ChannelsDto channelsDto, MultipartFile file) {
+        if (file==null){
+            Channels channels = channelsRepo.findById(channelsDto.getId()).orElse(null);
+            if(channels == null){
+                throw new RuntimeException("Not found");
+            }
+            channelsDto.setLogo(channels.getLogo());
+            if(channelsDto.getName()==null){
+
+            if(channels == null){
+                throw new RuntimeException("Not found");
+            }
+                channelsDto.setName(channels.getName());
+                channels = ChannelsMapper.INSTANCE.channelsDtoToChannels(channelsDto);
+                channels = channelsRepo.save(channels);
+                 return ChannelsMapper.INSTANCE.channelsToChannelsDto(channels);
+            }
+            channels = ChannelsMapper.INSTANCE.channelsDtoToChannels(channelsDto);
+            channels = channelsRepo.save(channels);
+            return ChannelsMapper.INSTANCE.channelsToChannelsDto(channels);
+        }
+
+        Response response = fileServiceFeign.upload(file);
+        channelsDto.setLogo(response.getDownloadUri());
         Channels channels = channelsRepo.findById(channelsDto.getId()).orElse(null);
         if(channels == null){
             throw new RuntimeException("Not found");
         }
-//        channelsEntity.setLogo(channelsDto.getLogo());
-//        channelsEntity.setName(channelsDto.getName());
-//        ChannelsEntity channelsEntity1 = channelRepo.save(channelsEntity);
-channels = ChannelsMapper.INSTANCE.channelsDtoToChannels(channelsDto);
+        channelsDto.setName(channels.getName());
+        channels = ChannelsMapper.INSTANCE.channelsDtoToChannels(channelsDto);
         channels = channelsRepo.save(channels);
         return ChannelsMapper.INSTANCE.channelsToChannelsDto(channels);
     }

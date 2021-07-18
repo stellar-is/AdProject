@@ -1,6 +1,5 @@
 package com.stellar.myproject.controller;
 
-import com.stellar.myproject.entity.Channels;
 import com.stellar.myproject.entity.dto.ChannelsDto;
 import com.stellar.myproject.service.ChannelsService;
 import io.swagger.annotations.Api;
@@ -19,10 +18,9 @@ public class ChannelsController {
     @Autowired
     ChannelsService channelsService;
 
-//    @RequestMapping(value = "/logo", method =  RequestMethod.POST)
     @PostMapping("/saveChannelWithLogo")
-    ChannelsDto saveChannel(@ModelAttribute ChannelsDto channelsDto, @RequestPart MultipartFile file) {
-        return channelsService.saveChannel(channelsDto, file);
+    ChannelsDto save(@ModelAttribute ChannelsDto channelsDto, @RequestPart MultipartFile file) {
+        return channelsService.save(channelsDto, file);
     }
 
     @GetMapping("/findAll")
@@ -30,4 +28,16 @@ public class ChannelsController {
         return channelsService.findAll();
     }
 
+    @PutMapping("/updateChannel")
+    public ChannelsDto updateChannel(@ModelAttribute ChannelsDto channelsDto, @RequestPart(required = false) MultipartFile file){
+        return channelsService.update(channelsDto, file);
+    }
+    @GetMapping("/findActiveChannels")
+    public List<ChannelsDto>findActiveChannels(){
+        return channelsService.findActiveChannels();
+    }
+    @DeleteMapping("/disActivateChannel")
+    public ChannelsDto disActivateChannel(Long id){
+        return channelsService.disActivateChannel(id);
+    }
 }

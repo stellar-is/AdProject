@@ -6,7 +6,7 @@ import java.util.Date;
 @Data
 public class DiscountsDto {
     private Long id;
-    private double discount;
+    private int discount;
     private Date startDate;
     private Date endDate;
     private int minDays;

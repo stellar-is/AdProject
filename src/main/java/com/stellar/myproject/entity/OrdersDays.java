@@ -6,14 +6,14 @@ import javax.persistence.*;
 
 @Entity
 @Data
-public class OrderDetails {
+@Table(name = "order_days")
+public class OrdersDays {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "order_days_id")
     private Long id;
+    private int day;
     @ManyToOne
-    private Orders orders;
-    @ManyToOne
-    private Channels channels;
-    private double price;
-
+    @JoinColumn(name = "order_details_id")
+    private OrdersDetails ordersDetails;
 }

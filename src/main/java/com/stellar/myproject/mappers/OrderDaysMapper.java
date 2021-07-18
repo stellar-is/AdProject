@@ -1,16 +1,16 @@
 package com.stellar.myproject.mappers;
 
-import com.stellar.myproject.entity.Orders;
-import com.stellar.myproject.entity.dto.OrdersDto;
+import com.stellar.myproject.entity.OrdersDays;
+import com.stellar.myproject.entity.dto.OrdersDaysDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import java.util.List;
 @Mapper
 public interface OrderDaysMapper {
-    OrdersMapper INSTANCE = Mappers.getMapper(OrdersMapper.class);
-    OrdersDto ordersToOrdersDto(Orders orders);
-    Orders ordersDtoToOrders(OrdersDto ordersDto);
-    List<OrdersDto>ordersLisToOrdersDtoList(List<Orders>ordersList);
-    List<Orders>ordersDtoLisToOrdersList(List<OrdersDto>ordersDtoList);
+    OrderDaysMapper INSTANCE = Mappers.getMapper(OrderDaysMapper.class);
+    OrdersDaysDto orderDaysToOrderDaysDto(OrdersDays ordersDays);
+    OrdersDays orderDaysDtoToOrderDays(OrdersDaysDto ordersDaysDto);
+    List<OrdersDaysDto>orderDaysLisToOrderDaysDtoList(List<OrdersDays> ordersDaysList);
+    List<OrdersDays>orderDaysDtoLisToOrderDaysList(List<OrdersDaysDto> ordersDaysDtoList);
 
 }

@@ -9,5 +9,6 @@ public class OrdersDto {
     private int amount;
     private boolean status;
     private ClientsDto clients;
+    private double totalSum;
 
 }

@@ -16,9 +16,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class Swagger2Config {
 
-    public static final String ORDER = "Добавить рекламу";
-    public static final String CHANNEL = "Добавить канал";
-    public static final String FILE = "Добавить лого";
+    public static final String ORDER = "Реклама";
+    public static final String CHANNEL = "Канал";
+    public static final String PRICE = "Цены";
+    public static final String CLIENT = "Клиент";
 
     @Bean
     public Docket api() {
@@ -29,7 +30,8 @@ public class Swagger2Config {
                 .build().apiInfo(apiEndPointsInfo())
                 .tags(new Tag(ORDER, ""))
                 .tags(new Tag(CHANNEL, ""))
-                .tags(new Tag(FILE, ""));
+                .tags(new Tag(PRICE, ""))
+                .tags(new Tag(CLIENT, ""));
     }
 
     private ApiInfo apiEndPointsInfo() {
