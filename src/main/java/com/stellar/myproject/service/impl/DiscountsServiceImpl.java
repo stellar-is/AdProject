@@ -1,8 +1,10 @@
 package com.stellar.myproject.service.impl;
 
 import com.stellar.myproject.entity.Discounts;
+import com.stellar.myproject.entity.Prices;
 import com.stellar.myproject.entity.dto.DiscountsDto;
 import com.stellar.myproject.mappers.DiscountsMapper;
+import com.stellar.myproject.mappers.PricesMapper;
 import com.stellar.myproject.repository.DiscountsRepo;
 import com.stellar.myproject.service.DiscountsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,9 @@ public class DiscountsServiceImpl implements DiscountsService {
 
     @Override
     public List<DiscountsDto> findAll() {
-        return null;
+        List<Discounts>discountsList = discountsRepo.findAll();
+        List<DiscountsDto>discountsDtoList = DiscountsMapper.INSTANCE.discountsListToDiscountsDtoList(discountsList);
+        return discountsDtoList;
     }
 
     @Override
@@ -30,9 +34,28 @@ public class DiscountsServiceImpl implements DiscountsService {
 
     @Override
     public DiscountsDto findByChannelsAndMinDay(int days, Long id) {
-        System.out.println(days);
         Discounts discounts = discountsRepo.findByChannelsAndMinDays(days, id);
-        System.out.println("db " + discounts);
+        return DiscountsMapper.INSTANCE.discountsToDiscountsDto(discounts);
+    }
+
+    @Override
+    public DiscountsDto update(DiscountsDto discountsDto) {
+        Discounts discounts = discountsRepo.findById(discountsDto.getId()).orElse(null);
+        if (discounts == null) {
+            throw new RuntimeException("Not found");
+        }
+        discounts = DiscountsMapper.INSTANCE.discountsDtoToDiscounts(discountsDto);
+        discountsRepo.save(discounts);
+        return DiscountsMapper.INSTANCE.discountsToDiscountsDto(discounts);
+
+    }
+
+    @Override
+    public DiscountsDto findById(Long id) {
+        Discounts discounts = discountsRepo.findById(id).orElse(null);
+        if (discounts == null){
+            throw  new RuntimeException("Not found");
+        }
         return DiscountsMapper.INSTANCE.discountsToDiscountsDto(discounts);
     }
 }

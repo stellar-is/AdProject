@@ -5,8 +5,9 @@ import java.util.*;
 
 public interface DiscountsService {
     List<DiscountsDto> findAll();
-
     DiscountsDto save(DiscountsDto discountDto);
-
     DiscountsDto findByChannelsAndMinDay(int days, Long id);
+    DiscountsDto update(DiscountsDto discountsDto);
+    DiscountsDto findById(Long id);
+
 }

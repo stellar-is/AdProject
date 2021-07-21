@@ -2,11 +2,13 @@ package com.stellar.myproject.entity.dto;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class OrdersDaysDto {
     private Long id;
-    private int day;
-    private OrdersDetailsDto orderDetails;
+    private Date day;
+    private OrdersDetailsDto ordersDetails;
 }
 
 

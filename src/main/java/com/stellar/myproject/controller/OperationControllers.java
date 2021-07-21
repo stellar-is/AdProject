@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.stellar.myproject.configuration.Swagger2Config.CHANNEL;
-import static com.stellar.myproject.configuration.Swagger2Config.ORDER;
+import static com.stellar.myproject.configuration.Swagger2Config.*;
 
-@Api(tags = ORDER)
+@Api(tags = CLIENT)
 @RestController
 @RequestMapping(value = "/api/v1/operation")
 public class OperationControllers {
@@ -21,7 +20,7 @@ public class OperationControllers {
     @Autowired
     private OperationService operationService;
 
-    @PostMapping("/save")
+    @PostMapping("/submitAnAdvertisement")
     public FinalResponse save(@RequestBody InputData inputData){
         return operationService.operation(inputData);
     }

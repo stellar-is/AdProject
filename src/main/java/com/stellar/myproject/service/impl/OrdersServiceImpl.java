@@ -8,6 +8,8 @@ import com.stellar.myproject.service.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class OrdersServiceImpl implements OrdersService {
 
@@ -25,12 +27,30 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Override
     public OrdersDto findById(Long id) {
-        return null;
+        Orders orders = ordersRepo.findById(id).orElse(null);
+                if(orders == null){
+                    throw new RuntimeException("Not found");
+                }
+        return OrdersMapper.INSTANCE.ordersToOrdersDto(orders);
     }
 
     @Override
     public OrdersDto update(OrdersDto orderDto) {
-        return null;
+
+        Orders orders = ordersRepo.findById(orderDto.getId()).orElse(null);
+        if(orders==null){
+            throw new RuntimeException("Not found");
+        }
+        orders = OrdersMapper.INSTANCE.ordersDtoToOrders(orderDto);
+        ordersRepo.save(orders);
+        return OrdersMapper.INSTANCE.ordersToOrdersDto(orders);
+    }
+
+    @Override
+    public List<OrdersDto> findAll() {
+        List<Orders>ordersList = ordersRepo.findAll();
+        List<OrdersDto>ordersDtoList = OrdersMapper.INSTANCE.ordersListToOrdersDtoList(ordersList);
+        return ordersDtoList;
     }
 
 }

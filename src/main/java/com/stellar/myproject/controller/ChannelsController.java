@@ -9,9 +9,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-import static com.stellar.myproject.configuration.Swagger2Config.CHANNEL;
+import static com.stellar.myproject.configuration.Swagger2Config.ADMIN;
 
-@Api(tags = CHANNEL)
+@Api(tags = ADMIN)
 @RestController
 @RequestMapping(value = "/api/v1/channels")
 public class ChannelsController {
@@ -23,7 +23,7 @@ public class ChannelsController {
         return channelsService.save(channelsDto, file);
     }
 
-    @GetMapping("/findAll")
+    @GetMapping("/findAllChannels")
     public List<ChannelsDto> findAll(){
         return channelsService.findAll();
     }
@@ -36,6 +36,7 @@ public class ChannelsController {
     public List<ChannelsDto>findActiveChannels(){
         return channelsService.findActiveChannels();
     }
+
     @DeleteMapping("/disActivateChannel")
     public ChannelsDto disActivateChannel(Long id){
         return channelsService.disActivateChannel(id);

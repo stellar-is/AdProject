@@ -1,16 +1,16 @@
 package com.stellar.myproject.service.impl;
 
-import com.stellar.myproject.entity.Orders;
 import com.stellar.myproject.entity.dto.*;
 import com.stellar.myproject.entity.objects.ChannelDays;
 import com.stellar.myproject.entity.objects.FinalResponse;
 import com.stellar.myproject.entity.objects.InputData;
-import com.stellar.myproject.mappers.OrdersMapper;
 import com.stellar.myproject.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -28,6 +28,8 @@ public class OperationServiceImpl implements OperationService {
     private PricesService pricesService;
     @Autowired
     private JavaMailSender javaMailSender;
+    @Autowired
+    private OrderDaysService orderDaysService;
 
     @Override
     public FinalResponse operation(InputData inputData) {
@@ -45,7 +47,6 @@ public class OperationServiceImpl implements OperationService {
         String str = inputData.getText().replaceAll("\\s+","");
         int symbolAmount = str.length();
         ordersDto.setAmount(symbolAmount);
-        System.out.println("длина текста "+str.length());
         ordersDto.setClients(clientsDto);
         ordersDto.setStatus(false);
         ordersDto.setText(inputData.getText());
@@ -67,18 +68,26 @@ public class OperationServiceImpl implements OperationService {
                     PricesDto pricesDto=  pricesService.findByChannelsAndDate(tvChanelId);
                     double pricePerSymbol = pricesDto.getPrice();
 
-                    if (discountDto != null){
+                    OrdersDetailsDto ordersDetailsDto1;
+
+                    if(discountDto != null){
                         int percent = discountDto.getDiscount();
                         double withoutDiscount = symbolAmount*pricePerSymbol;
                         double discountInSum = withoutDiscount*percent/100;
-                        double sumForChanel = withoutDiscount-discountInSum;
+                        double sum = withoutDiscount-discountInSum;
+                        double sumForChanel = sum*days;
                         ordersDetailsDto.setPrice(sumForChanel);
-                        orderDetailsService.save(ordersDetailsDto);
-                    }
+                        ordersDetailsDto1 = orderDetailsService.save(ordersDetailsDto);
 
-                    double withoutDiscount = symbolAmount*pricePerSymbol;
-                    ordersDetailsDto.setPrice(withoutDiscount);
-                    orderDetailsService.save(ordersDetailsDto);
+                    }else {
+                        double withoutDiscount = symbolAmount * pricePerSymbol * days;
+                        ordersDetailsDto.setPrice(withoutDiscount);
+                        ordersDetailsDto1 = orderDetailsService.save(ordersDetailsDto);
+                    }
+                    List<Date>day = x.getDays();
+                    day.stream().forEach(d->{
+                        orderDaysService.saveDate(d,ordersDetailsDto1);
+                    });
                 });
 
         List<OrdersDetailsDto> ordersDetailsDtoList = orderDetailsService.findAllByOrders(ordersDto1);
@@ -86,8 +95,9 @@ public class OperationServiceImpl implements OperationService {
         ordersDto1.setTotalSum(totalSum);
         orderService.save(ordersDto1);
 
-        finalResponse.setMessage("Ok");
+        finalResponse.setMessage("Заказ успешно добавлен!");
         finalResponse.setStatus(1);
+        finalResponse.setText(ordersDto1.getText());
         finalResponse.setTotalSum(totalSum);
 
         String code = generateCode();
@@ -95,17 +105,17 @@ public class OperationServiceImpl implements OperationService {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("crauseetic@gmail.com");
         message.setTo(inputData.getEMail());
-        System.out.println(inputData.getEMail());
-        message.setSubject("Оповещение!");
-        message.setText("Ваше обявление :"+inputData.getText()+"\nСумма к оплате :"+totalSum+"\nВаш код оплаты: "+code);
+        message.setSubject("Оповещение о подаче рекламы!");
+        message.setText("Ваше обявление:"+"«"+ inputData.getText()+"»"+" успешно добавлено!"+"\nСумма к оплате :"+totalSum+"\nВаш код оплаты: "+code);
         javaMailSender.send(message);
 
         return finalResponse;
     }
 
     public String generateCode(){
-        int randomPIN = (int)(Math.random()*9000)+1000;
+        int randomPIN = (int)(Math.random()*9999)+1000;
         String val = ""+randomPIN;
         return val;
     }
+
 }

@@ -16,10 +16,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class Swagger2Config {
 
-    public static final String ORDER = "Реклама";
-    public static final String CHANNEL = "Канал";
-    public static final String PRICE = "Цены";
     public static final String CLIENT = "Клиент";
+    public static final String ADMIN = "Администратор";
 
     @Bean
     public Docket api() {
@@ -28,9 +26,7 @@ public class Swagger2Config {
                         .basePackage("com.stellar.myproject.controller"))
                 .paths(PathSelectors.any())
                 .build().apiInfo(apiEndPointsInfo())
-                .tags(new Tag(ORDER, ""))
-                .tags(new Tag(CHANNEL, ""))
-                .tags(new Tag(PRICE, ""))
+                .tags(new Tag(ADMIN, ""))
                 .tags(new Tag(CLIENT, ""));
     }
 
@@ -38,7 +34,7 @@ public class Swagger2Config {
         return new ApiInfoBuilder().title("AdProject")
                 .description("Бэкенд для проекта AdProject")
                 .version("1.0.0")
-                .contact(new Contact("Дадабаев Искандар", "http://www.megacom.kg", "iskandardadabev@gmaol.kg"))
+                .contact(new Contact("Дадабаев Искандар", "http://www.megacom.kg", "iskandardadabev@gmail.com"))
                 .build();
     }
 }

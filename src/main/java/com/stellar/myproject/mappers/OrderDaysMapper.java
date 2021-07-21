@@ -8,8 +8,8 @@ import java.util.List;
 @Mapper
 public interface OrderDaysMapper {
     OrderDaysMapper INSTANCE = Mappers.getMapper(OrderDaysMapper.class);
-    OrdersDaysDto orderDaysToOrderDaysDto(OrdersDays ordersDays);
-    OrdersDays orderDaysDtoToOrderDays(OrdersDaysDto ordersDaysDto);
+    OrdersDaysDto ordersDaysToOrdersDaysDto(OrdersDays ordersDays);
+    OrdersDays ordersDaysDtoToOrdersDays(OrdersDaysDto ordersDaysDto);
     List<OrdersDaysDto>orderDaysLisToOrderDaysDtoList(List<OrdersDays> ordersDaysList);
     List<OrdersDays>orderDaysDtoLisToOrderDaysList(List<OrdersDaysDto> ordersDaysDtoList);
 

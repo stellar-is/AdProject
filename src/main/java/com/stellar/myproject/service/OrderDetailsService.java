@@ -7,6 +7,5 @@ import  java.util.List;
 public interface OrderDetailsService {
 
     OrdersDetailsDto save(OrdersDetailsDto ordersDetailsDto);
-
     List<OrdersDetailsDto> findAllByOrders(OrdersDto orderDto);
 }

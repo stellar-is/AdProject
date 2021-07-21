@@ -20,7 +20,6 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
     @Override
     public OrdersDetailsDto save(OrdersDetailsDto ordersDetailsDto) {
         OrdersDetails ordersDetails = OrderDetailsMapper.INSTANCE.orderDetailsDtoToOrderDetails(ordersDetailsDto);
-        System.out.println(ordersDetails);
         ordersDetails = orderDetailsRepo.save(ordersDetails);
 
         return OrderDetailsMapper.INSTANCE.orderDetailsToOrderDetailsDto(ordersDetails);

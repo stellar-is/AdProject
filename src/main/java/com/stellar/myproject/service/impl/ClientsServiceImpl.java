@@ -19,8 +19,10 @@ public class ClientsServiceImpl implements ClientsService {
     private ClientsRepo clientsRepo;
 
     @Override
-    public List<Clients> findAll() {
-        return clientsRepo.findAll();
+    public List<ClientsDto> findAll() {
+        List<Clients>clientsList = clientsRepo.findAll();
+        List<ClientsDto>clientsDtoList = ClientsMapper.INSTANCE.clientsListToClientsDtoList(clientsList);
+        return clientsDtoList;
     }
 
     @Override
@@ -32,7 +34,11 @@ public class ClientsServiceImpl implements ClientsService {
 
     @Override
     public ClientsDto findById(Long id) {
-        return null;
+        Clients clients = clientsRepo.findById(id).orElse(null);
+        if(clients==null){
+            throw new RuntimeException("Not found");
+        }
+        return ClientsMapper.INSTANCE.clientsToClientsDto(clients);
     }
 
     @Override

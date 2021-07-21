@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class OrdersDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "order_details_id")
+    @Column(name = "orders_details_id")
     private Long id;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "orders_id")
