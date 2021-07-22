@@ -12,13 +12,4 @@ public class FileServiceImpl implements FileService {
     @Autowired
     private ChannelsServiceImpl channelService;
 
-//    @Override
-//    public ChannelsDto uploadLogo(Long id, MultipartFile file) {
-//        ChannelsDto channelsDto = channelService.findById(id);
-//        Response response = fileServiceFeign.upload(file);
-//        channelsDto.setLogo(response.getDownloadUri());
-//        channelsDto = channelService.update(channelsDto);
-//
-//        return channelsDto;
-//    }
 }

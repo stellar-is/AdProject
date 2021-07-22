@@ -5,15 +5,14 @@ import com.stellar.myproject.service.DiscountsService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import static com.stellar.myproject.configuration.Swagger2Config.DISCOUNT;
 
-import static com.stellar.myproject.configuration.Swagger2Config.ADMIN;
-
-@Api(tags = ADMIN)
+@Api(tags = DISCOUNT)
 @RestController
 @RequestMapping(value = "/api/v1/discounts")
 public class DiscountsController {
+
     @Autowired
     private DiscountsService discountsService;
 

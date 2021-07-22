@@ -5,12 +5,10 @@ import com.stellar.myproject.service.PricesService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import static com.stellar.myproject.configuration.Swagger2Config.PRICE;
 
-import static com.stellar.myproject.configuration.Swagger2Config.ADMIN;
-
-@Api(tags = ADMIN)
+@Api(tags = PRICE)
 @RestController
 @RequestMapping(value = "/api/v1/prices")
 public class PricesController {
